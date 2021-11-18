@@ -23,6 +23,9 @@ def provide_menu():
         }, {
             'name': 'Новости',
             'link': '/news/',
+        }, {
+            'name': 'Создать',
+            'link': '/create/'
         },
     ]
     return {'menu': menu}
@@ -63,6 +66,12 @@ def view_index():
                 'link': '/news/',
                 'link_name': 'Новости',
             },
+            {
+                'header': 'Создать',
+                'description': 'Создать нового студента',
+                'link': '/create/',
+                'link_name': 'Создать',
+            },
         ],
     }
 
@@ -70,11 +79,13 @@ def view_index():
 
 
 @app.route('/students/', methods=['GET'])
-@app.route('/students/<index>/', methods=['GET'])
-def view_student(index=None):
+@app.route('/students/<int:id>/', methods=['GET'])
+def view_student(id=None):
 
-    index = index
     search = flask.request.args.get('search')
+
+    for i in range(len(data)):
+        data[i]['id'] = i
 
     if search:
         search_data = []
@@ -93,10 +104,14 @@ def view_student(index=None):
         'students': data
     }
 
-    if index is None:
+    if id is None:
         return flask.render_template('students.html', **context)
 
-    person = data[(int(index))]
+    person = {}
+    for i in range(len(data)):
+        if data[i]['id'] == id:
+            person = data[i]
+
     if person is None:
         return flask.abort(Response('Студент не найден'))
 
@@ -122,6 +137,21 @@ def view_news():
         "news": news
     }
     return flask.render_template('news.html', **context)
+
+
+# добавление нового студента
+@app.route('/create/', methods=['POST', 'GET'])
+def view_create():
+    if flask.request.method == 'POST':
+        new_student = dict()
+        new_student['name'] = flask.request.form['name']
+        new_student['group'] = flask.request.form['group']
+        new_student['email'] = flask.request.form['email']
+        data.append(new_student)
+        return flask.render_template('student.html', person=new_student)
+    else:
+        return flask.render_template('create.html')
+
 
 
 if __name__ == '__main__':

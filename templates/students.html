@@ -22,10 +22,10 @@
                 <h2>{{student.name}}</h2>
                 <ul class="d-flex list-unstyled mt-auto">
                     <li class="me-auto">
-                        <a href="/students/{{loop.index - 1}}" class="btn" style="background: #ffffff">открыть</a>
+                        <a href="/students/{{student.id}}" class="btn" style="background: #ffffff">открыть</a>
                     </li>
                     <li class="d-flex align-items-center me-3">
-                        <small>#{{loop.index}}</small>
+                        <small>#{{student.id + 1}}</small>
                     </li>
                     <li class="d-flex align-items-center">
                         <small>{{ student.group }}</small>

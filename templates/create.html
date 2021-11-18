@@ -1,0 +1,25 @@
+{% extends "base.html"  %}
+{% block title %}Добавление нового студента{% endblock %}
+
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<form action="{{ url_for('view_create') }}" method="post">
+    <label for="firstName">Фамилия Имя</label>
+        <input type="text" name="name" value="" required="">
+    <label for="lastName">Группа</label>
+    <select name="group" required="">
+        <option value="">Выбрать группу</option>
+        <option>ЗПМ</option>
+        <option>3ИС</option>
+        <option>4ИС</option>
+    </select>
+    <label for="email">Email</label>
+        <input type="email" name="email" placeholder="example@mail.ru">
+    <button type="submit">Добавить</button>
+</form>
+
+{% endblock %}
